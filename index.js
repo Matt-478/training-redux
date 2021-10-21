@@ -2,9 +2,25 @@ import redux from "redux"
 const createStore = redux.createStore
 
 
-const BUY_CAKE = "BUY_CAKE"
+// STATE - asimple object
+// // dispatch(action) allows state to be updated
+// const initialState = {
+//   numOfCakes: 10,
+//   numOfIceCreams: 20
+// }
 
-// ACTION creator - creates an action
+const initialCakeState = {
+  numOfCakes: 10
+}
+
+const initialIceCreamState = {
+  numOfIceCreams: 20
+}
+
+const BUY_CAKE = "BUY_CAKE"
+const BUY_ICECREAM = "BUY_ICECREAM"
+
+// action
 function buyCake () {
   return {
     type: BUY_CAKE,
@@ -12,23 +28,33 @@ function buyCake () {
   }
 }
 
-// STATE - asimple object
-// dispatch(action) allows state to be updated
-const initialState = {
-  numOfCakes: 10
+// action
+function buyIceCream() {
+  return {
+    type: BUY_ICECREAM
+  }
 }
 
 // REDUCER
-const reducer = (state = initialState, action) => {
+const cakeReducer = (state = initialCakeState, action) => {
   switch(action.type) {
     case BUY_CAKE: return {
       ...state,
       numOfCakes: state.numOfCakes -1
     }
-
     default: return state
   }
 }
+
+const IceCreamReducer = (state = initialIceCreamState, action) => {
+  switch(action.type) {
+    case BUY_ICECREAM: return {
+      ...state,
+      numOfIceCreams: state.numOfIceCreams -1
+    }
+  }
+}
+
 
 // holds state;
 const store = createStore(reducer)
@@ -37,9 +63,9 @@ const store = createStore(reducer)
 console.log("intial state", store.getState())
 
 const unsubscribe = store.subscribe(() => console.log("updated state", store.getState()))
-
 store.dispatch(buyCake())
 store.dispatch(buyCake())
 store.dispatch(buyCake())
-
+store.dispatch(buyIceCream())
+store.dispatch(buyIceCream())
 unsubscribe()
